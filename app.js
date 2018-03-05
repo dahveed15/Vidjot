@@ -82,7 +82,7 @@ app.get('/about', (req, res) => {
 // Idea Index Page
 app.get('/ideas', (req, res) => {
 
-  //display all ideas
+  //display all ideas (mongo command)
   Idea.find({})
     .sort({date:'desc'})
     .then(ideas => {
@@ -96,6 +96,21 @@ app.get('/ideas', (req, res) => {
 //add Idea Form
 app.get('/ideas/add', (req, res) => {
   res.render('ideas/add');
+});
+
+//Edit Idea Form
+app.get('/ideas/edit/:id', (req, res) => {
+
+  //mongo
+  //req.params.id finds whatever is in the wildcard in the get file path (:id)
+  Idea.findOne({
+    _id: req.params.id
+  })
+  .then(idea => {
+    res.render('ideas/edit', {
+      idea:idea
+    });
+  });
 });
 
 //process form

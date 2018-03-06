@@ -152,6 +152,8 @@ app.post('/ideas', (req, res) => {
 
 //Edit Form process (update form)
 app.put('/ideas/:id', (req, res) => {
+
+  //find the idea by its id, then update it
   Idea.findOne({
     _id: req.params.id
   })
@@ -161,9 +163,17 @@ app.put('/ideas/:id', (req, res) => {
     idea.details = req.body.details;
 
     idea.save()
-    .then(ideaAgain => {
+    .then(() => {
       res.redirect('/ideas');
     });
+  });
+});
+
+// Delete Idea
+app.delete('/ideas/:id', (req, res) => {
+  Idea.remove({_id: req.params.id})
+  .then(() => {
+    res.redirect('/ideas');
   });
 });
 

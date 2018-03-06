@@ -3,6 +3,7 @@
 const express = require('express');
 //use the handlebars template engine
 const exphbs = require('express-handlebars');
+const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
@@ -49,6 +50,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
+
+//Method override middleware
+app.use(methodOverride('_method'));
 
 
 //ROUTES
@@ -144,6 +148,17 @@ app.post('/ideas', (req, res) => {
       res.redirect('/ideas');
     });
   }
+});
+
+//Edit Form process
+app.put('/ideas/:id', (req, res) => {
+  Idea.findOne({
+    _id: req.params.id
+  })
+  .then(idea => {
+    //new values
+    
+  });
 });
 
 const port = 5000;

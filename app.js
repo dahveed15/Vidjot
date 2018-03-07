@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const session = require('express-session');
+const path = require('path');
 
 //initialize application
 const app = express();
@@ -50,6 +51,11 @@ app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
+
+
+//Static folder
+//sets the public folder to be the express static folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 //Method override middleware

@@ -14,7 +14,7 @@ const app = express();
 
 //Load routes
 const ideas = require('./routes/ideas');
-
+const users = require('./routes/users');
 
 //Map global promise - get rid of warning
 mongoose.promise = global.Promise;
@@ -107,20 +107,12 @@ app.get('/about', (req, res) => {
 });
 
 
-//user login Route
-app.get('/users/login', (req, res) => {
-  res.send('login');
-});
-
-//user register Route
-app.get('/users/register', (req, res) => {
-  res.send('register');
-});
-
 
 //Use routes
 //anything that follows the path after ideas in the ideas.js file will have /ideas before it
 app.use('/ideas', ideas);
+app.use('/users', users);
+
 
 const port = 5000;
 

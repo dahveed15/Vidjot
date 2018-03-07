@@ -9,7 +9,7 @@ const Schema = mongoose.Schema;
 //default: Date.now will set the current date every time something is made
 //BCrypt will encrypt the password
 const UserSchema = new Schema({
-  title: {
+  name: {
     type: String,
     required: true
   },

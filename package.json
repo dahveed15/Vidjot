@@ -120,5 +120,14 @@
     "wordwrap": "^1.0.0",
     "wrappy": "^1.0.2",
     "yargs": "^11.0.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dahveed15/Vidjot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dahveed15/Vidjot/issues"
+  },
+  "homepage": "https://github.com/dahveed15/Vidjot#readme"
 }

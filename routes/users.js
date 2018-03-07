@@ -4,7 +4,7 @@ const router = express.Router();
 
 //user login Route
 router.get('/login', (req, res) => {
-  res.send('login');
+  res.render('users/login');
 });
 
 //user register Route

@@ -6,6 +6,7 @@ const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
 const path = require('path');
@@ -16,6 +17,9 @@ const app = express();
 //Load routes
 const ideas = require('./routes/ideas');
 const users = require('./routes/users');
+
+//Passport Config (passes passport into exported function)
+require('./config/passport')(passport);
 
 //Map global promise - get rid of warning
 mongoose.promise = global.Promise;

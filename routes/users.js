@@ -1,14 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-// const passport = require('passport');
+const passport = require('passport');
 const router = express.Router();
 
 //Load User Model
 require('../models/User');
 const User = mongoose.model('users');
 
-//user login Route
+//user1 login Route
 router.get('/login', (req, res) => {
   res.render('users/login');
 });
@@ -16,6 +16,15 @@ router.get('/login', (req, res) => {
 //user register Route
 router.get('/register', (req, res) => {
   res.render('users/register');
+});
+
+// Login Form POST
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', {
+    successRedirect: '/ideas',
+    failureRedirect: '/users/login',
+    failureFlash: true
+  })(req, res, next);
 });
 
 //Register Form Post (create a User)
@@ -40,28 +49,36 @@ router.post('/register', (req, res) => {
       password2: req.body.password2
     });
   } else {
-    const newUser = new User ({
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password
-    });
+    User.findOne({email: req.body.email})
+    .then(user => {
+      if (user){
+        req.flash('error_msg', 'Email already registered');
+        res.redirect('/users/register');
+      } else {
+        const newUser = new User ({
+          name: req.body.name,
+          email: req.body.email,
+          password: req.body.password
+        });
 
-    //generate a salt for the password
-    //first parameter indicates how long you want the salted password to be
-    bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(newUser.password, salt, (err2, hashedPassword) => {
-        if(err) throw err;
-        newUser.password = hashedPassword;
-        newUser.save()
-          .then(user => {
-            req.flash('success_msg', 'You are now registered and can log in');
-            res.redirect('/users/login');
-          })
-          .catch(err3 => {
-            console.log(err3);
-            return;
+        //generate a salt for the password
+        //first parameter indicates how long you want the salted password to be
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(newUser.password, salt, (err2, hashedPassword) => {
+            if(err) throw err;
+            newUser.password = hashedPassword;
+            newUser.save()
+              .then(user1 => {
+                req.flash('success_msg', 'You are now registered and can log in');
+                res.redirect('/users/login');
+              })
+              .catch(err3 => {
+                console.log(err3);
+                return;
+              });
           });
-      });
+        });
+      }
     });
   }
 });

@@ -1,12 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
+const {ensureAuthenticated} = require('../helpers/auth');
+
 //Load Idea Model
 require('../models/Idea');
 const Idea = mongoose.model('ideas');
 
 // Idea Index Page
-router.get('/', (req, res) => {
+router.get('/', ensureAuthenticated, (req, res) => {
 
   //display all ideas (mongo command)
   Idea.find({})
@@ -20,7 +22,7 @@ router.get('/', (req, res) => {
 
 
 //add Idea Form
-router.get('/add', (req, res) => {
+router.get('/add', ensureAuthenticated, (req, res) => {
   res.render('ideas/add');
 });
 

@@ -74,6 +74,9 @@ app.use(session({
   cookie: { secure: true }
 }));
 
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 //connect-flash middleware
 app.use(flash());
@@ -84,6 +87,7 @@ app.use(function(req, res, next){
   res.locals.error_msg = req.flash('error_msg');
   //this one will be used for local auth
   res.locals.error = req.flash('error');
+  res.locals.user = req.user || null;
   next();
 });
 
